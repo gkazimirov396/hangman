@@ -1,0 +1,57 @@
+{
+  "extends": ["react-app", "react-app/jest", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "quotes": ["warn", "single"],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "indent": ["warn", 2],
+    "comma-dangle": ["warn", "always-multiline"],
+    "semi": ["warn", "always"],
+    "prefer-const": "error",
+    "no-var": "error",
+    "no-unused-vars": "warn",
+    "max-len": [
+      "warn",
+      {
+        "code": 80
+      }
+    ],
+    "prefer-arrow-callback": [
+      "warn",
+      {
+        "allowNamedFunctions": true
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-key": [
+      "error",
+      {
+        "checkKeyMustBeforeSpread": true
+      }
+    ],
+    "react/jsx-one-expression-per-line": [
+      "warn",
+      {
+        "allow": "single-child"
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}
