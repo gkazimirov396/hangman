@@ -20,7 +20,9 @@ const HangmanWord: FC<HangmanWordProps> = ({
       {wordToGuess.split('').map((letter, idx) => (
         <LetterContainer key={idx}>
           <Letter
-            color={!guessedLetters.includes(letter) && reveal ? '#f00' : '#000'}
+            $color={
+              !guessedLetters.includes(letter) && reveal ? '#f00' : '#000'
+            }
             isVisible={guessedLetters.includes(letter) || reveal}
           >
             {letter}
