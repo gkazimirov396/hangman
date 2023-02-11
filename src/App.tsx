@@ -13,7 +13,7 @@ const getRandomWord = () => {
 };
 
 const App = () => {
-  const [word, setWord] = useState(getRandomWord());
+  const [word, setWord] = useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const activeLetters = guessedLetters.filter(letter => word.includes(letter));
