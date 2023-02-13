@@ -18,7 +18,7 @@ const App = () => {
 
   const activeLetters = guessedLetters.filter(letter => word.includes(letter));
   const incorrectLetters = guessedLetters.filter(
-    letter => !word.includes(letter),
+    letter => !word.includes(letter)
   );
 
   const isLoser = incorrectLetters.length >= 6;
@@ -32,7 +32,7 @@ const App = () => {
 
       setGuessedLetters(currentLetters => [...currentLetters, letter]);
     },
-    [guessedLetters, isLoser, isWinner],
+    [guessedLetters, isLoser, isWinner]
   );
 
   useEffect(() => {
