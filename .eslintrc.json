@@ -49,11 +49,16 @@
         "pathGroups": [
           {
             "pattern": "react",
-            "group": "external",
+            "group": "builtin",
             "position": "before"
+          },
+          {
+            "pattern": "react-dom/*",
+            "group": "builtin",
+            "position": "after"
           }
         ],
-        "pathGroupsExcludedImportTypes": ["react"],
+        "pathGroupsExcludedImportTypes": ["react", "react-dom/*"],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
