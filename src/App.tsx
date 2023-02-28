@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import ReactConfetti from 'react-confetti';
 import Swal from 'sweetalert2';
 
 import HangmanDrawing from './components/HangmanDrawing';
@@ -84,6 +85,7 @@ const App = () => {
 
   return (
     <MainContainer>
+      {isWinner && <ReactConfetti />}
       <HangmanDrawing guesses={incorrectLetters.length} />
       <HangmanWord
         guessedLetters={guessedLetters}
