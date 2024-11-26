@@ -31,9 +31,10 @@ const App = () => {
   const isWinner = word
     .split('')
     .every(letter => guessedLetters.includes(letter));
+  const isGameOver = isLoser || isWinner;
 
   const addGuessedLetter = (letter: string) => {
-    if (guessedLetters.includes(letter) || isLoser || isWinner) return;
+    if (guessedLetters.includes(letter) || isGameOver) return;
 
     setGuessedLetters(currentLetters => [...currentLetters, letter]);
   };
@@ -43,7 +44,7 @@ const App = () => {
 
     event.preventDefault();
 
-    if (key === 'Enter') {
+    if (key === 'Enter' && (isGameOver || guessedLetters.length === 0)) {
       Swal.clickConfirm();
 
       setGuessedLetters([]);
@@ -93,7 +94,7 @@ const App = () => {
           activeLetters={activeLetters}
           inactiveLetters={incorrectLetters}
           addGuessedLetter={addGuessedLetter}
-          disabled={isLoser || isWinner}
+          disabled={isGameOver}
         />
       </KeyboardContainer>
     </MainContainer>
