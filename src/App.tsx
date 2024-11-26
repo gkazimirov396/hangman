@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ReactConfetti from 'react-confetti';
 import Swal from 'sweetalert2';
@@ -6,9 +6,13 @@ import Swal from 'sweetalert2';
 import HangmanDrawing from './components/HangmanDrawing';
 import HangmanWord from './components/HangmanWord';
 import Keyboard from './components/Keyboard';
+
+import { WORDS } from './data/wordList';
+
+import { useEventListener } from './hooks/useEventListener';
+
 import { MainContainer } from './styles/Container.styled';
 import { KeyboardContainer } from './styles/Keyboard.styled';
-import { WORDS } from './utils/wordList';
 
 const getRandomWord = () => {
   return WORDS[Math.floor(Math.random() * WORDS.length)];
@@ -28,58 +32,48 @@ const App = () => {
     .split('')
     .every(letter => guessedLetters.includes(letter));
 
-  const addGuessedLetter = useCallback(
-    (letter: string) => {
-      if (guessedLetters.includes(letter) || isLoser || isWinner) return;
+  const addGuessedLetter = (letter: string) => {
+    if (guessedLetters.includes(letter) || isLoser || isWinner) return;
 
-      setGuessedLetters(currentLetters => [...currentLetters, letter]);
-    },
-    [guessedLetters, isLoser, isWinner]
-  );
+    setGuessedLetters(currentLetters => [...currentLetters, letter]);
+  };
 
-  useEffect(() => {
-    const keyPressHandler = (event: KeyboardEvent) => {
-      const key = event.key;
+  const keyPressHandler = (event: KeyboardEvent) => {
+    const key = event.key;
 
-      if (!key.match(/^[a-z]$/)) return;
+    event.preventDefault();
 
-      event.preventDefault();
-      addGuessedLetter(key);
-    };
-
-    document.addEventListener('keypress', keyPressHandler);
-
-    return () => {
-      document.removeEventListener('keypress', keyPressHandler);
-    };
-  }, [guessedLetters, addGuessedLetter]);
-
-  useEffect(() => {
-    const keyPressHandler = (event: KeyboardEvent) => {
-      const key = event.key;
-
-      if (key !== 'Enter') return;
-
-      event.preventDefault();
+    if (key === 'Enter') {
       Swal.clickConfirm();
+
       setGuessedLetters([]);
       setWord(getRandomWord());
-    };
+    }
 
-    document.addEventListener('keypress', keyPressHandler);
+    if (!key.match(/^[a-z]$/)) return;
 
-    return () => {
-      document.removeEventListener('keypress', keyPressHandler);
-    };
-  }, [guessedLetters]);
+    addGuessedLetter(key);
+  };
+
+  useEventListener('keypress', keyPressHandler);
 
   useEffect(() => {
     if (isLoser) {
-      Swal.fire('Nice Try!', 'Click "Enter" to try again.', 'error');
+      Swal.fire({
+        title: 'Nice Try!',
+        html: 'Click "Enter" to try again.',
+        icon: 'error',
+        timer: 2100,
+      });
     }
 
     if (isWinner) {
-      Swal.fire('Great Job!', 'Click "Enter" to try again.', 'success');
+      Swal.fire({
+        title: 'Great Job!',
+        html: 'Click "Enter" to try again.',
+        icon: 'success',
+        timer: 2100,
+      });
     }
   }, [isLoser, isWinner]);
 
@@ -87,11 +81,13 @@ const App = () => {
     <MainContainer>
       {isWinner && <ReactConfetti />}
       <HangmanDrawing guesses={incorrectLetters.length} />
+
       <HangmanWord
         guessedLetters={guessedLetters}
         wordToGuess={word}
         reveal={isLoser}
       />
+
       <KeyboardContainer>
         <Keyboard
           activeLetters={activeLetters}

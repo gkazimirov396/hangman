@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
+import { KEYS } from '../data/keys';
+
 import { StyledButton } from '../styles/Button.styled';
 import { StyledKeyboard } from '../styles/Keyboard.styled';
-import { KEYS } from '../utils/keys';
 
 interface KeyboardProps {
   disabled?: boolean;
